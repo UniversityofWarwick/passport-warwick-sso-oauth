@@ -1,0 +1,18 @@
+extends layout
+
+block content
+	h1 Warwick web sign-on login example
+	p This example forces a user to be logged in to Warwick's web sign-on and retrieves their attributes.
+
+	h2 Attributes
+
+	table
+		thead
+			tr
+				th Key
+				th Value
+		tbody
+			- each value, key in user
+				tr
+					td= key
+					td= value

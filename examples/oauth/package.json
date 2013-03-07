@@ -1,0 +1,13 @@
+{
+  "name": "passport-warwick-sso-examples-oauth",
+  "version": "0.0.0",
+  "scripts": {
+    "start": "node app"
+  },
+  "dependencies": {
+    "express": ">= 0.0.0",
+    "jade": "*",
+    "passport": ">= 0.0.0",
+    "passport-warwick-sso-oauth": ">= 0.0.0"
+  }
+}
