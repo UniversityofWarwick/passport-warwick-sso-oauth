@@ -65,7 +65,7 @@ For a complete, working example, refer to the [OAuth 1.0 example](https://github
     $ npm install --dev
     $ make test
 
-[![Build Status](https://secure.travis-ci.org/UniversityofWarwick/passport-warwick-sso-oauth.png)](http://travis-ci.org/UniversityofWarwick/passport-warwick-sso-oauth)
+[![Build Status](https://api.travis-ci.org/UniversityofWarwick/passport-warwick-sso-oauth.png?branch=master)](http://travis-ci.org/UniversityofWarwick/passport-warwick-sso-oauth)
 
 ## Credits
 
