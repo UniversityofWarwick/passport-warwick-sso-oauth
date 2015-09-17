@@ -1,41 +1,37 @@
 var express = require('express')
+  , app = express()
+  , server = require('http').createServer( app )
+  , bodyParser = require('body-parser')
+  , cookieParser = require('cookie-parser')
+  , session = require('express-session')
+  , port = process.env.PORT || 3000
   , routes = require('./routes')
-  , http = require('http')
   , path = require('path')
 	, passport = require('passport')
 	, WarwickSSOStrategy = require('passport-warwick-sso-oauth').Strategy;
 
 // Register a Warwick SSO consumer key and secret here: http://warwick.ac.uk/oauth/apis/registration
-var WARWICK_SSO_CONSUMER_KEY = "--insert-oauth-consumer-key-here--";
-var WARWICK_SSO_CONSUMER_SECRET = "--insert-oauth-consumer-secret-here--";
+var WARWICK_SSO_CONSUMER_KEY = "node-example-app.augustus.warwick.ac.uk";
+var WARWICK_SSO_CONSUMER_SECRET = "y93ZWJzaWdub24ud2Fyd2ljay5hYy51ay9vcmlnaW4vc3lzYWRtaW4vb2F1dGgvYWRkQ2";
 
-var app = express();
+app.set('views', __dirname + '/views');
+app.set('view engine', 'jade');
 
-app.configure(function(){
-  app.set('port', process.env.PORT || 3000);
-  app.set('views', __dirname + '/views');
-  app.set('view engine', 'jade');
-  app.use(express.favicon());
-  app.use(express.logger('dev'));
-  app.use(express.bodyParser());
-  app.use(express.methodOverride());
+app.use(express.static(path.join(__dirname, 'public')));
 
-	// Initialise express session storage. Not suitable for production without a proper store. We need the cookie parser too
-	app.use(express.cookieParser());
-	app.use(express.session({ secret: 'squirrel!' }));
+app.use(require('morgan')('dev'));
+app.use(bodyParser.urlencoded({extended: true}));
 
-	// Initialize Passport!  Also use passport.session() middleware, to support
-  // persistent login sessions (recommended).
-  app.use(passport.initialize());
-  app.use(passport.session());
+// Initialise express session storage. Not suitable for production without a proper store. We need the cookie parser too
+//app.use(cookieParser());
+app.use(session({ secret: 'squirrel!', resave: true, saveUninitialized: true }));
 
-  app.use(app.router);
-  app.use(express.static(path.join(__dirname, 'public')));
-});
+// Initialize Passport!  Also use passport.session() middleware, to support
+// persistent login sessions (recommended).
+app.use(passport.initialize());
+app.use(passport.session());
 
-app.configure('development', function(){
-  app.use(express.errorHandler());
-});
+app.use(require('errorhandler')());
 
 // Passport session setup.
 //   To support persistent login sessions, Passport needs to be able to
@@ -71,7 +67,7 @@ var authCallback = function(token, tokenSecret, profile, done) {
 passport.use(new WarwickSSOStrategy({
 		consumerKey: WARWICK_SSO_CONSUMER_KEY,
 		consumerSecret: WARWICK_SSO_CONSUMER_SECRET,
-		callbackURL: 'http://localhost:3000/auth/warwick-sso/callback'
+		callbackURL: 'http://localhost:' + port + '/auth/warwick-sso/callback'
   },
   authCallback
 ));
@@ -83,7 +79,7 @@ passport.use(new WarwickSSOStrategy({
 //   login page.
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) { return next(); }
-  res.redirect('/auth/warwick-sso')
+  res.redirect('/auth/warwick-sso');
 }
 
 // GET /auth/warwick-sso
@@ -116,6 +112,6 @@ app.get('/logout', function(req, res){
 
 app.get('/', ensureAuthenticated, routes.index);
 
-http.createServer(app).listen(app.get('port'), function(){
-  console.log("Express server listening on port " + app.get('port'));
+server.listen(port, function () {
+  console.log('Listening on port ' + port);
 });

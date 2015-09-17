@@ -1,6 +1,6 @@
 {
   "name": "passport-warwick-sso-oauth",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Warwick Web sign-on (OAuth) authentication strategies for Passport.",
   "keywords": ["passport", "warwick", "sso", "web sign-on", "auth", "authn", "authentication", "identity"],
   "repository": {
