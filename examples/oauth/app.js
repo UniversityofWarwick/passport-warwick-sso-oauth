@@ -11,8 +11,8 @@ var express = require('express')
 	, WarwickSSOStrategy = require('passport-warwick-sso-oauth').Strategy;
 
 // Register a Warwick SSO consumer key and secret here: http://warwick.ac.uk/oauth/apis/registration
-var WARWICK_SSO_CONSUMER_KEY = "node-example-app.augustus.warwick.ac.uk";
-var WARWICK_SSO_CONSUMER_SECRET = "y93ZWJzaWdub24ud2Fyd2ljay5hYy51ay9vcmlnaW4vc3lzYWRtaW4vb2F1dGgvYWRkQ2";
+var WARWICK_SSO_CONSUMER_KEY = "--insert-oauth-consumer-key-here--";
+var WARWICK_SSO_CONSUMER_SECRET = "--insert-oauth-consumer-secret-here--";
 
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
